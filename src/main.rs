@@ -5,7 +5,6 @@ use game::*;
 fn main() {
     println!("\tS N A K E");
     
-    let b = Board::new();
+    run();
 
-    b.draw();
 }
