@@ -1,3 +1,5 @@
+use std::io;
+
 pub struct Board {
     board : Vec<Vec<char>>,
     player : Player,
@@ -27,20 +29,43 @@ impl Board{
         }
     }
     fn move_player(&mut self){
+        let mut dest = String::new();
+        
+        io::stdin()
+        .read_line(&mut dest)
+        .expect("Error reading the input");
+        
+        match dest.trim(){
+            "w" => {
+                self.player.possition_y -= 1;
+            },
+            "s" => {
+                self.player.possition_y += 1;
+            },
+            "a" => {
+                self.player.possition_x -= 1;
+            },
+            "d" => {
+                self.player.possition_x += 1;
+            },
+            &_ => panic!("Unresolved input")
+        }
         self.board[self.player.possition_y][self.player.possition_x] = self.player.sign;
     }
     fn draw(&mut self){
         print!("{}[2J", 27 as char);
-        self.move_player();
         for row in self.board.iter(){
             for cell in row.iter(){
                 print!("{}", cell);
             }
             println!();
         }
+        self.move_player();
     }
 }
 pub fn run(){
     let mut b = Board::new();
-    b.draw();
+    loop{
+        b.draw();
+    }
 }
