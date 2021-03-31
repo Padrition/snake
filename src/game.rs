@@ -50,9 +50,9 @@ impl Board{
             },
             &_ => panic!("Unresolved input")
         }
-        self.board[self.player.possition_y][self.player.possition_x] = self.player.sign;
     }
     fn draw(&mut self){
+        self.board[self.player.possition_y][self.player.possition_x] = self.player.sign;
         print!("{}[2J", 27 as char);
         for row in self.board.iter(){
             for cell in row.iter(){
