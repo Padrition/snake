@@ -6,17 +6,17 @@ pub struct Board {
 }
 struct Player {
     sign : char,
-    len : u32,
-    possition_x : usize,
-    possition_y : usize,
+    possition : Vec<Cords>
+}
+struct Cords{
+    x : usize,
+    y : usize,
 }
 impl Player{
     fn new() -> Player{
         Player{
             sign : '#',
-            len : 1,
-            possition_x : 0,
-            possition_y : 0,
+            possition : vec![Cords{ x: 0 ,y : 0}]
         }
     }
 }
@@ -37,16 +37,16 @@ impl Board{
         
         match dest.trim(){
             "w" => {
-                self.player.possition_y -= 1;
+                self.player.possition[0].y -= 1;
             },
             "s" => {
-                self.player.possition_y += 1;
+                self.player.possition[0].y += 1;
             },
             "a" => {
-                self.player.possition_x -= 1;
+                self.player.possition[0].x -= 1;
             },
             "d" => {
-                self.player.possition_x += 1;
+                self.player.possition[0].x += 1;
             },
             &_ => panic!("Unresolved input")
         }
@@ -57,7 +57,7 @@ impl Board{
                 self.board[y][x] = '0';
             }
         }
-        self.board[self.player.possition_y][self.player.possition_x] = self.player.sign;
+        self.board[self.player.possition[0].y][self.player.possition[0].x] = self.player.sign;
     }
     fn draw(&mut self){
         self.board_set();
