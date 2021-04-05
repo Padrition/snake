@@ -13,7 +13,7 @@ struct Player {
     position: Vec<Coords>,
 }
 struct Coords {
-    x: usize,
+    pub x: usize,
     y: usize,
 }
 impl Player {
@@ -54,19 +54,21 @@ impl Board {
             player: Player::new(),
         }
     }
-    fn reset(&mut self) {
-        for y in 0..self.board.len() {
-            for x in 0..self.board.len() {
+    fn reposition(&mut self) {
+        for y in 0..BOARD_SIZE {
+            for x in 0..BOARD_SIZE {
                 self.board[y][x] = BOARD_SIGN;
             }
         }
-        self.board[self.player.position[0].y][self.player.position[0].x] = self.player.sign;
+        for coordinate in self.player.position.iter() {
+            self.board[coordinate.y][coordinate.x] = self.player.sign;
+        }
     }
     fn draw(&mut self) {
         print!("{}[2J", 27 as char);
         for row in self.board.iter() {
-            for cell in row.iter() {
-                print!("{}", cell);
+            for sign in row.iter() {
+                print!("{}", sign);
             }
             println!();
         }
@@ -75,7 +77,7 @@ impl Board {
 pub fn run() {
     let mut board = Board::new();
     loop {
-        board.reset();
+        board.reposition();
         board.draw();
         board.player.reposition();
     }
