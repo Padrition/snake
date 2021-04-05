@@ -2,15 +2,17 @@ use std::io;
 
 const PLAYER_SIGN: char = '#';
 const BOARD_SIGN: char = '.';
+const BOARD_SIZE: usize = 10;
+
 pub struct Board {
     board: Vec<Vec<char>>,
     player: Player,
 }
 struct Player {
     sign: char,
-    position: Vec<Cords>,
+    position: Vec<Coords>,
 }
-struct Cords {
+struct Coords {
     x: usize,
     y: usize,
 }
@@ -18,18 +20,10 @@ impl Player {
     fn new() -> Player {
         Player {
             sign: PLAYER_SIGN,
-            position: vec![Cords { x: 0, y: 0 }],
+            position: vec![Coords { x: 0, y: 0 }],
         }
     }
-}
-impl Board {
-    pub fn new() -> Board {
-        Board {
-            board: vec![vec![BOARD_SIGN; 10]; 10],
-            player: Player::new(),
-        }
-    }
-    fn move_player(&mut self) {
+    fn reposition(&mut self) {
         let mut dest = String::new();
 
         io::stdin()
@@ -38,18 +32,26 @@ impl Board {
 
         match dest.trim() {
             "w" => {
-                self.player.position[0].y -= 1;
+                self.position[0].y -= 1;
             }
             "s" => {
-                self.player.position[0].y += 1;
+                self.position[0].y += 1;
             }
             "a" => {
-                self.player.position[0].x -= 1;
+                self.position[0].x -= 1;
             }
             "d" => {
-                self.player.position[0].x += 1;
+                self.position[0].x += 1;
             }
             &_ => panic!("Unresolved input"),
+        }
+    }
+}
+impl Board {
+    pub fn new() -> Board {
+        Board {
+            board: vec![vec![BOARD_SIGN; BOARD_SIZE]; BOARD_SIZE],
+            player: Player::new(),
         }
     }
     fn reset(&mut self) {
@@ -68,7 +70,6 @@ impl Board {
             }
             println!();
         }
-        self.move_player();
     }
 }
 pub fn run() {
@@ -76,5 +77,6 @@ pub fn run() {
     loop {
         board.reset();
         board.draw();
+        board.player.reposition();
     }
 }
