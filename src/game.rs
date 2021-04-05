@@ -1,12 +1,14 @@
 use std::io;
 
+const PLAYER_SIGN: char = '#';
+const BOARD_SIGN: char = '.';
 pub struct Board {
     board: Vec<Vec<char>>,
     player: Player,
 }
 struct Player {
     sign: char,
-    possition: Vec<Cords>,
+    position: Vec<Cords>,
 }
 struct Cords {
     x: usize,
@@ -15,15 +17,15 @@ struct Cords {
 impl Player {
     fn new() -> Player {
         Player {
-            sign: '#',
-            possition: vec![Cords { x: 0, y: 0 }],
+            sign: PLAYER_SIGN,
+            position: vec![Cords { x: 0, y: 0 }],
         }
     }
 }
 impl Board {
     pub fn new() -> Board {
         Board {
-            board: vec![vec!['0'; 10]; 10],
+            board: vec![vec![BOARD_SIGN; 10]; 10],
             player: Player::new(),
         }
     }
@@ -36,30 +38,29 @@ impl Board {
 
         match dest.trim() {
             "w" => {
-                self.player.possition[0].y -= 1;
+                self.player.position[0].y -= 1;
             }
             "s" => {
-                self.player.possition[0].y += 1;
+                self.player.position[0].y += 1;
             }
             "a" => {
-                self.player.possition[0].x -= 1;
+                self.player.position[0].x -= 1;
             }
             "d" => {
-                self.player.possition[0].x += 1;
+                self.player.position[0].x += 1;
             }
             &_ => panic!("Unresolved input"),
         }
     }
-    fn board_set(&mut self) {
+    fn reset(&mut self) {
         for y in 0..self.board.len() {
             for x in 0..self.board.len() {
-                self.board[y][x] = '0';
+                self.board[y][x] = BOARD_SIGN;
             }
         }
-        self.board[self.player.possition[0].y][self.player.possition[0].x] = self.player.sign;
+        self.board[self.player.position[0].y][self.player.position[0].x] = self.player.sign;
     }
     fn draw(&mut self) {
-        self.board_set();
         print!("{}[2J", 27 as char);
         for row in self.board.iter() {
             for cell in row.iter() {
@@ -71,8 +72,9 @@ impl Board {
     }
 }
 pub fn run() {
-    let mut b = Board::new();
+    let mut board = Board::new();
     loop {
-        b.draw();
+        board.reset();
+        board.draw();
     }
 }
