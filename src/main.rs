@@ -1,7 +1,7 @@
-mod game;
-mod snake;
-mod position;
 mod board;
+mod game;
+mod position;
+mod snake;
 
 pub const PLAYER_SIGN: char = '#';
 pub const BOARD_SIGN: char = '.';
