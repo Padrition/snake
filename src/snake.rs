@@ -25,4 +25,8 @@ impl Snake {
         //move a head into the direction
         self.head.move_to_dir(dir);
     }
+    pub fn grow(&mut self) {
+        let last_index = self.tail.len() - 1;
+        self.tail.push(self.tail[last_index].clone());
+    }
 }
