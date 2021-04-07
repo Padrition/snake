@@ -9,6 +9,8 @@ pub fn run() {
     let mut snake = Snake::new();
     let mut apple = Apple::new();
     loop {
+        //update board
+        board.update(&mut snake, &mut apple);
         //draw a board
         board.draw();
         //ask for direction
@@ -23,7 +25,14 @@ pub fn run() {
         };
 
         snake.next_move(&direction);
-        //update board
-        board.update(&mut snake, &mut apple);
+
+        if snake.head == apple.pos{
+            apple.eaten();
+            snake.grow();
+        }
+
+        if apple.eaten == true {
+            apple.update_pos();
+        }
     }
 }

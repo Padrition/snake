@@ -22,4 +22,7 @@ impl Apple {
         self.pos.x = thread_rng().gen_range(0..BOARD_SIZE);
         self.pos.y = thread_rng().gen_range(0..BOARD_SIZE);
     }
+    pub fn eaten(&mut self){
+        self.eaten = true;
+    }
 }
