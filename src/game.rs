@@ -1,3 +1,4 @@
+use super::apple::*;
 use super::board::*;
 use super::position::*;
 use super::snake::*;
@@ -6,6 +7,7 @@ use std::io;
 pub fn run() {
     let mut board = Board::new();
     let mut snake = Snake::new();
+    let mut apple = Apple::new();
     loop {
         //draw a board
         board.draw();
@@ -22,6 +24,6 @@ pub fn run() {
 
         snake.next_move(&direction);
         //update board
-        board.update(&mut snake);
+        board.update(&mut snake, &mut apple);
     }
 }

@@ -1,15 +1,15 @@
-use super::*;
 use super::position::*;
+use super::*;
 use rand::prelude::*;
 
-struct Apple {
-    apple: Position,
+pub struct Apple {
+    pub pos: Position,
 }
 
 impl Apple {
     pub fn new() -> Apple {
         Apple {
-            apple: Position {
+            pos: Position {
                 x: thread_rng().gen_range(0..BOARD_SIZE),
                 y: thread_rng().gen_range(0..BOARD_SIZE),
             },

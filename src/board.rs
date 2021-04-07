@@ -1,3 +1,4 @@
+use super::apple::*;
 use super::snake::*;
 use super::*;
 use std::fmt;
@@ -27,7 +28,7 @@ impl Board {
             board: vec![vec![Cell::Empty; BOARD_SIZE]; BOARD_SIZE],
         }
     }
-    pub fn update(&mut self, snake: &mut Snake) {
+    pub fn update(&mut self, snake: &mut Snake, apple: &mut Apple) {
         //reset the board to empty
         self.board.fill(vec![Cell::Empty; BOARD_SIZE]);
         //take a position of snake's head and set cell for Player in the corresponding position in the board
@@ -36,6 +37,8 @@ impl Board {
         for tail_part in snake.tail.iter() {
             self.board[tail_part.y][tail_part.x] = Cell::Player;
         }
+        //set Cell to Apple to corresponding apple position
+        self.board[apple.pos.y][apple.pos.x] = Cell::Apple;
     }
     pub fn draw(&mut self) {
         print!("{}[2J", 27 as char); //clears the terminal
