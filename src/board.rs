@@ -13,7 +13,7 @@ impl fmt::Display for Cell {
         match self {
             Cell::Empty => write!(f, "{}", BOARD_SIGN),
             Cell::Player => write!(f, "{}", PLAYER_SIGN),
-            Cell::Apple => write!(f, "@"),
+            Cell::Apple => write!(f, "{}", APPLE_SIGN),
         }
     }
 }

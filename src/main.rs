@@ -4,6 +4,7 @@ mod position;
 mod snake;
 
 pub const PLAYER_SIGN: char = '#';
+pub const APPLE_SIGN: char = '@';
 pub const BOARD_SIGN: char = '.';
 pub const BOARD_SIZE: usize = 10;
 
