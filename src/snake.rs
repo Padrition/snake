@@ -1,5 +1,4 @@
 use super::position::*;
-use super::*;
 
 pub struct Snake {
     pub head: Position,
