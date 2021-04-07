@@ -1,3 +1,4 @@
+mod apple;
 mod board;
 mod game;
 mod position;
