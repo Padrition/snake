@@ -3,6 +3,7 @@ use super::board::*;
 use super::position::*;
 use super::snake::*;
 use std::io;
+use std::process;
 
 pub fn run() {
     let mut board = Board::new();
@@ -24,18 +25,28 @@ pub fn run() {
             Err(_) => panic!("UnknownDirection"),
         };
 
-        if let Err(DirectionError::OppositeDirection) = snake.next_move(&direction) {
-            eprintln!("YOU ARE NOT ALLOWED TO GO OPPOSITE DIRECTION!");
-            continue;
-        };
+        match snake.next_move(&direction) {
+            Ok(a) => a,
+            Err(SnakeError::Direction(DirectionError::UnknownDirection)) => {
+                println!("UNKNOWN DIRECTION! (USE \'w\', \'a\', \'s\', \'d\')");
+                continue;
+            }
+            Err(SnakeError::Direction(DirectionError::OppositeDirection)) => {
+                println!("YOU ARE NOT ALLOWED TO MOVE IN THE OPPOSITE DIRECTION!");
+                continue;
+            }
+            Err(SnakeError::Position(PositionError::CollidingPositions)) => {
+                println!("GAME OVER!");
+                println!("you collided with yourself");
+                process::exit(0);
+            }
+        }
 
         if snake.head == apple.pos {
             apple.eaten();
             snake.grow();
         }
 
-        if apple.eaten {
-            apple.update_pos();
-        }
+        apple.update_pos();
     }
 }

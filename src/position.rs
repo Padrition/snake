@@ -1,3 +1,6 @@
+pub enum PositionError {
+    CollidingPositions,
+}
 #[derive(Clone, PartialEq, Debug)]
 pub struct Position {
     pub x: usize,
@@ -18,7 +21,7 @@ pub enum DirectionError {
     UnknownDirection,
     OppositeDirection,
 }
-#[derive(PartialEq)]
+#[derive(PartialEq, Copy, Clone)]
 pub enum Direction {
     Up,
     Right,

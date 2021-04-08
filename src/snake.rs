@@ -1,5 +1,9 @@
 use super::position::*;
 
+pub enum SnakeError {
+    Direction(DirectionError),
+    Position(PositionError),
+}
 pub struct Snake {
     pub current_dir: Direction,
     pub head: Position,
@@ -13,10 +17,13 @@ impl Snake {
             tail: vec![Position { x: 0, y: 0 }],
         }
     }
-    pub fn next_move(&mut self, dir: &Direction) -> Result<(), DirectionError> {
+    pub fn next_move(&mut self, dir: &Direction) -> Result<(), SnakeError> {
         //player can't go to the opposite direction
         if *dir == self.current_dir.opposite() {
-            return Err(DirectionError::OppositeDirection);
+            return Err(SnakeError::Direction(DirectionError::OppositeDirection));
+        }
+        if self.tail.iter().any(|tail| *tail == self.head) {
+            return Err(SnakeError::Position(PositionError::CollidingPositions));
         }
         //increment every tail part to the next position
         for i in (0..self.tail.len()).rev() {
@@ -30,6 +37,8 @@ impl Snake {
         self.tail[0] = self.head.clone();
         //move a head into the direction
         self.head.move_to_dir(dir);
+
+        self.current_dir = *dir;
 
         Ok(())
     }
