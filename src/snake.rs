@@ -22,9 +22,6 @@ impl Snake {
         if *dir == self.current_dir.opposite() {
             return Err(SnakeError::Direction(DirectionError::OppositeDirection));
         }
-        if self.tail.iter().any(|tail| *tail == self.head) {
-            return Err(SnakeError::Position(PositionError::CollidingPositions));
-        }
         //increment every tail part to the next position
         for i in (0..self.tail.len()).rev() {
             if i == 0 {
@@ -37,6 +34,10 @@ impl Snake {
         self.tail[0] = self.head.clone();
         //move a head into the direction
         self.head.move_to_dir(dir);
+
+        if self.tail.iter().any(|tail| *tail == self.head) {
+            return Err(SnakeError::Position(PositionError::CollidingPositions));
+        }
 
         self.current_dir = *dir;
 
