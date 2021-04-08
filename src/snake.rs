@@ -1,17 +1,23 @@
 use super::position::*;
 
 pub struct Snake {
+    pub current_dir: Direction,
     pub head: Position,
     pub tail: Vec<Position>,
 }
 impl Snake {
     pub fn new() -> Snake {
         Snake {
+            current_dir: Direction::Right,
             head: Position { x: 1, y: 0 },
             tail: vec![Position { x: 0, y: 0 }],
         }
     }
-    pub fn next_move(&mut self, dir: &Direction) {
+    pub fn next_move(&mut self, dir: &Direction) -> Result<(), DirectionError> {
+        //player can't go to the opposite direction
+        if *dir == self.current_dir.opposite() {
+            return Err(DirectionError::OppositeDirection);
+        }
         //increment every tail part to the next position
         for i in (0..self.tail.len()).rev() {
             if i == 0 {
@@ -24,9 +30,11 @@ impl Snake {
         self.tail[0] = self.head.clone();
         //move a head into the direction
         self.head.move_to_dir(dir);
+
+        Ok(())
     }
     pub fn grow(&mut self) {
-            let last_index = self.tail.len() - 1;
-            self.tail.push(self.tail[last_index].clone());
+        let last_index = self.tail.len() - 1;
+        self.tail.push(self.tail[last_index].clone());
     }
 }

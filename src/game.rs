@@ -24,14 +24,17 @@ pub fn run() {
             Err(_) => panic!("UnknownDirection"),
         };
 
-        snake.next_move(&direction);
+        if let Err(DirectionError::OppositeDirection) = snake.next_move(&direction) {
+            eprintln!("YOU ARE NOT ALLOWED TO GO OPPOSITE DIRECTION!");
+            continue;
+        };
 
-        if snake.head == apple.pos{
+        if snake.head == apple.pos {
             apple.eaten();
             snake.grow();
         }
 
-        if apple.eaten == true {
+        if apple.eaten {
             apple.update_pos();
         }
     }

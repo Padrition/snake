@@ -1,4 +1,4 @@
-#[derive(Clone, PartialEq)]
+#[derive(Clone, PartialEq, Debug)]
 pub struct Position {
     pub x: usize,
     pub y: usize,
@@ -16,8 +16,9 @@ impl Position {
 
 pub enum DirectionError {
     UnknownDirection,
+    OppositeDirection,
 }
-
+#[derive(PartialEq)]
 pub enum Direction {
     Up,
     Right,
@@ -32,6 +33,14 @@ impl Direction {
             "a" => Ok(Direction::Left),
             "s" => Ok(Direction::Down),
             _ => Err(DirectionError::UnknownDirection),
+        }
+    }
+    pub fn opposite(&self) -> Direction {
+        match self {
+            Direction::Up => Direction::Down,
+            Direction::Right => Direction::Left,
+            Direction::Left => Direction::Right,
+            Direction::Down => Direction::Up,
         }
     }
 }
