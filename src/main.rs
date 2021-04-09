@@ -12,5 +12,8 @@ pub const BOARD_SIZE: usize = 10;
 fn main() {
     println!("\tS N A K E");
 
-    game::run();
+    let mut game = game::Game::new();
+
+    game.run();
+
 }
