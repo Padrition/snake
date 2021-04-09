@@ -58,7 +58,19 @@ impl Game{
             }
     
             self.apple.update_pos();
+
+            self.apple_pos_check();
+            
         }
     }
-    
+    fn apple_pos_check(&mut self){
+        while self.snake.head == self.apple.pos{
+            self.apple.update_pos();
+        }
+        for i in 0..self.snake.tail.len(){
+            while self.snake.tail[i] == self.apple.pos{
+                self.apple.update_pos();
+            }
+        }
+    }
 }
