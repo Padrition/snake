@@ -12,30 +12,30 @@ impl Position {
     pub fn move_to_dir(&mut self, dir: &Direction) {
         match dir {
             Direction::Up => {
-                if self.y == 0{
+                if self.y == 0 {
                     self.y = BOARD_SIZE - 1;
-                }else{
+                } else {
                     self.y -= 1;
                 }
-            },
+            }
             Direction::Right => {
-                if self.x == BOARD_SIZE - 1{
+                if self.x == BOARD_SIZE - 1 {
                     self.x = 0;
-                }else{
+                } else {
                     self.x += 1;
                 }
             }
             Direction::Left => {
-                if self.x == 0{
+                if self.x == 0 {
                     self.x = BOARD_SIZE - 1;
-                }else{
-                    self.x -= 1;   
+                } else {
+                    self.x -= 1;
                 }
             }
             Direction::Down => {
                 if self.y == BOARD_SIZE - 1 {
                     self.y = 0;
-                }else{
+                } else {
                     self.y += 1;
                 }
             }

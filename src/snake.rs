@@ -1,5 +1,4 @@
 use super::position::*;
-use super::*;
 
 pub enum SnakeError {
     Direction(DirectionError),
@@ -35,7 +34,7 @@ impl Snake {
         self.tail[0] = self.head.clone();
         //move a head into the direction
         self.head.move_to_dir(dir);
-        
+
         if self.tail.iter().any(|tail| *tail == self.head) {
             return Err(SnakeError::Position(PositionError::CollidingPositions));
         }
